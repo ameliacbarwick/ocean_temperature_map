@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gulf of Mexico Water Temperature Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map { height: 100vh; width: 100%; }
+    </style>
+</head>
+<body>
+    <h1>Gulf of Mexico Coastal Water Temperatures</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        
+        var map = L.map('map').setView([27, -88], 6);
+
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        
+        fetch('assets/coastal_temperature_data.geojson')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup("Temperature: " + feature.properties.temperature + "°C" +
+                                        "<br>Date: " + feature.properties.date);
+                    },
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: getColor(feature.properties.temperature),
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        });
+                    }
+                }).addTo(map);
+            });
+
+        // Define a color scale function
+        function getColor(temp) {
+            return temp > 30 ? '#FF5733' :
+                   temp > 25 ? '#FFC300' :
+                   temp > 20 ? '#DAF7A6' :
+                               '#5DADE2';
+        }
+    </script>
+</body>
+</html>
