@@ -13,27 +13,31 @@
     <h1>Gulf of Mexico Coastal Water Temperatures</h1>
     <div id="map"></div>
 
+    <!-- JavaScript -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        
+        // Initialize the map
         var map = L.map('map').setView([27, -88], 6);
 
-        
+        // Add OpenStreetMap tile layer
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        
+        // Fetch and load GeoJSON data
         fetch('assets/coastal_temperature_data.geojson')
             .then(response => response.json())
             .then(data => {
+                // Add GeoJSON data to the map and bind popups
                 L.geoJSON(data, {
                     onEachFeature: function (feature, layer) {
+                        // Here is where the popup is added
                         layer.bindPopup("Temperature: " + feature.properties.temperature + "°C" +
                                         "<br>Date: " + feature.properties.date);
                     },
                     pointToLayer: function (feature, latlng) {
+                        // Create circle markers based on temperature
                         return L.circleMarker(latlng, {
                             radius: 8,
                             fillColor: getColor(feature.properties.temperature),
@@ -46,13 +50,36 @@
                 }).addTo(map);
             });
 
-        // Define a color scale function
+        // Function to determine color based on temperature
         function getColor(temp) {
-            return temp > 30 ? '#FF5733' :
-                   temp > 25 ? '#FFC300' :
-                   temp > 20 ? '#DAF7A6' :
-                               '#5DADE2';
+            return temp > 30 ? '#FF5733' :  // Red for temperatures > 30
+                   temp > 25 ? '#FFC300' :  // Yellow for temperatures > 25
+                   temp > 20 ? '#DAF7A6' :  // Green for temperatures > 20
+                               '#5DADE2';  // Blue for temperatures <= 20
         }
+
+        // Add a legend for the temperature scale
+        var legend = L.control({position: 'topright'});
+
+        legend.onAdd = function () {
+            var div = L.DomUtil.create('div', 'info legend');
+            var grades = [20, 25, 30];
+            var labels = [];
+
+            // Loop through the grades and create a colored box for each range
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                    grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+            }
+            return div;
+        };
+
+        legend.addTo(map);
     </script>
 </body>
 </html>
+
+
+    
+
