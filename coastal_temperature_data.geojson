@@ -1,0 +1,28 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-88.0, 27.0]
+        },
+        "properties": {
+          "temperature": 29.5,
+          "date": "2023-04-01"
+        }
+      },
+      {
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-87.5, 28.0]
+        },
+        "properties": {
+          "temperature": 27.8,
+          "date": "2023-04-15"
+        }
+      }
+    ]
+  }
+  
