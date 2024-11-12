@@ -1,28 +1,38 @@
 {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [-88.0, 27.0]
-        },
-        "properties": {
-          "temperature": 29.5,
-          "date": "2023-04-01"
-        }
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-88.5, 27.5]  // Longitude, Latitude
       },
-      {
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [-87.5, 28.0]
-        },
-        "properties": {
-          "temperature": 27.8,
-          "date": "2023-04-15"
-        }
+      "properties": {
+        "temperature": 28,  // Temperature in Celsius
+        "date": "2024-05-12"  // Date of measurement
       }
-    ]
-  }
-  
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-87.5, 28.0]
+      },
+      "properties": {
+        "temperature": 30,
+        "date": "2024-05-15"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.0, 27.8]
+      },
+      "properties": {
+        "temperature": 29,
+        "date": "2024-06-01"
+      }
+    }
+  ]
+}
